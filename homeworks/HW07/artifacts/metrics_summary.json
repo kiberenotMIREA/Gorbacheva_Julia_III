@@ -1,0 +1,38 @@
+{
+    "DS1": {
+        "KMeans": {
+            "silhouette": 0.5216395622404242,
+            "davies_bouldin": 0.6853295219054459,
+            "calinski_harabasz": 11786.95462267153
+        },
+        "DBSCAN": {
+            "silhouette": 0.38163610426903044,
+            "davies_bouldin": 1.2517620051869873,
+            "calinski_harabasz": 8432.692533211448
+        }
+    },
+    "DS2": {
+        "KMeans": {
+            "silhouette": 0.3068610017701601,
+            "davies_bouldin": 1.3234721699867644,
+            "calinski_harabasz": 3573.3933329348392
+        },
+        "AgglomerativeClustering": {
+            "silhouette": 0.41976775922231674,
+            "davies_bouldin": 0.8791287795996852,
+            "calinski_harabasz": 395.4825694831712
+        }
+    },
+    "DS3": {
+        "KMeans": {
+            "silhouette": 0.31554470037825183,
+            "davies_bouldin": 1.1577256320598661,
+            "calinski_harabasz": 6957.162639510166
+        },
+        "DBSCAN": {
+            "silhouette": 0.18545801130132425,
+            "davies_bouldin": 1.1420343030103453,
+            "calinski_harabasz": 3132.754307524959
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "DS1": {
+        "algorithm": "KMeans",
+        "k": 2
+    },
+    "DS2": {
+        "algorithm": "AgglomerativeClustering",
+        "k": 2,
+        "linkage": "average"
+    },
+    "DS3": {
+        "algorithm": "KMeans",
+        "k": 3
+    }
+}
