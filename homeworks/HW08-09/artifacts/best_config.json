@@ -1,0 +1,14 @@
+{
+    "input_dim": 784,
+    "hidden_dims": [
+        256,
+        128
+    ],
+    "num_classes": 47,
+    "activation": "relu",
+    "use_batchnorm": false,
+    "dropout_p": 0.0,
+    "seed": 42,
+    "dataset": "EMNIST",
+    "description": "Конфигурация лучшей модели (E4)"
+}
