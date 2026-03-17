@@ -1,16 +1,4 @@
 {
-    "DS1": {
-        "KMeans": {
-            "silhouette": 0.5216395622404242,
-            "davies_bouldin": 0.6853295219054459,
-            "calinski_harabasz": 11786.95462267153
-        },
-        "DBSCAN": {
-            "silhouette": 0.38163610426903044,
-            "davies_bouldin": 1.2517620051869873,
-            "calinski_harabasz": 8432.692533211448
-        }
-    },
     "DS2": {
         "KMeans": {
             "silhouette": 0.3068610017701601,

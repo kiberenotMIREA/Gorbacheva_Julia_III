@@ -1,0 +1,22 @@
+{
+    "input_dim": 784,
+    "hidden_dims": [
+        256,
+        128
+    ],
+    "num_classes": 47,
+    "activation": "relu",
+    "use_batchnorm": false,
+    "dropout_p": 0.0,
+    "learning_rate": 0.001,
+    "optimizer": "Adam",
+    "weight_decay": 0.0,
+    "momentum_for_optimizer": 0.0,
+    "early_stopping_patience": 4,
+    "early_stopping_min_delta": 0.0005,
+    "early_stopping_metric": "acc",
+    "max_epochs_if_no_es": 50,
+    "seed": 42,
+    "dataset": "EMNIST",
+    "description": "Конфигурация лучшей модели (E4): BatchNorm + EarlyStopping + гиперпараметры обучения"
+}
