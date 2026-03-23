@@ -1,0 +1,18 @@
+{
+  "experiment_id": "C4",
+  "dataset": "STL10",
+  "num_classes": 10,
+  "architecture": "C4 (ResNet ft)",
+  "optimizer": "Adam",
+  "lr": 0.001,
+  "epochs": 5,
+  "best_epoch": 5,
+  "best_val_accuracy": 0.786,
+  "test_accuracy": 0.78375,
+  "seed": 42,
+  "batch_size": 32,
+  "device": "cpu",
+  "train_size": 4000,
+  "val_size": 1000,
+  "test_size": 8000
+}
