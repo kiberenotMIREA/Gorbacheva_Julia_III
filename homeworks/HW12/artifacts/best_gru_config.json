@@ -1,0 +1,13 @@
+{
+  "input_size": 1,
+  "hidden_size": 32,
+  "num_layers": 1,
+  "window_size": 24,
+  "scaler_mean": 127.45611458333333,
+  "scaler_std": 18.22502588039417,
+  "seed": 42,
+  "lr": 0.001,
+  "batch_size": 64,
+  "epochs_trained": 15,
+  "best_val_loss": 0.1990868772069613
+}
