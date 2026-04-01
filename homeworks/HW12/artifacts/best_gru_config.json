@@ -9,5 +9,5 @@
   "lr": 0.001,
   "batch_size": 64,
   "epochs_trained": 15,
-  "best_val_loss": 0.1990868772069613
+  "best_val_loss": 0.180707306911548
 }

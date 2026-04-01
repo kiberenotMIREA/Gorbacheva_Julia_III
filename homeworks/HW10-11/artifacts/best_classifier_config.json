@@ -14,5 +14,12 @@
   "device": "cpu",
   "train_size": 4000,
   "val_size": 1000,
-  "test_size": 8000
+  "test_size": 8000,
+  "transforms": {
+    "train": "RandomHorizontalFlip(0.5) → Resize(72) → RandomCrop(64) → ToTensor() → Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])",
+    "val": "Resize(72) → CenterCrop(64) → ToTensor() → Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])",
+    "test": "Resize(72) → CenterCrop(64) → ToTensor() → Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])"
+  },
+  "augmentation": "RandomHorizontalFlip(p=0.5), Resize(72), RandomCrop(64)",
+  "preprocess": "Resize(72) → CenterCrop(64) → ToTensor() → Normalize(ImageNet mean/std)"
 }
