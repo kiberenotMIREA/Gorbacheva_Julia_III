@@ -1,0 +1,35 @@
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Models (large files)
+artifacts/models/*.keras
+artifacts/models/*.h5
+artifacts/models/*.pkl
+artifacts/models/*.json
+
+# Data
+data/processed/*.pkl
+data/raw/
+
+# OS
+Thumbs.db
+.DS_Store

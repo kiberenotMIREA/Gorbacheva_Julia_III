@@ -1,0 +1,71 @@
+# =============================================================================
+# CPU-only зависимости проекта Vulnerability Scoring
+# =============================================================================
+# Установка (Windows / Debian 13):
+#   1. Сначала установите CPU-only PyTorch (120MB вместо 2.4GB с CUDA):
+#        pip install torch --index-url https://download.pytorch.org/whl/cpu --force-reinstall --no-deps
+#   2. Затем остальные зависимости (transformers увидит уже установленный torch):
+#        pip install -r requirements.txt
+#
+# На Linux с TensorFlow < 2.16 используйте tensorflow-cpu вместо tensorflow:
+#   pip install tensorflow-cpu
+# Начиная с TF 2.16+ основной пакет tensorflow не включает CUDA.
+# =============================================================================
+
+# --- Численные расчеты и работа с данными ------------------------------------
+numpy>=1.24.0          # Массивы и матричные операции
+pandas>=2.0.0          # Табличные данные, DataFrame
+
+# --- Машинное обучение -------------------------------------------------------
+scikit-learn>=1.3.0    # LogisticRegression, метрики, TF-IDF
+
+# --- Глубокое обучение (CPU-only) --------------------------------------------
+# TensorFlow / Keras:
+#   TF >=2.16 — основной пакет CPU-only (CUDA вынесен в tensorflow[and-cuda])
+#   TF 2.13–2.15 — на Windows уже CPU-only; на Linux используйте tensorflow-cpu
+tensorflow>=2.13.0     # CPU-only: Keras / LSTM / BiLSTM
+
+# PyTorch (для инференса и fine-tuning DistilBERT через transformers):
+#   Установите CPU-версию ДО установки requirements.txt (см. README.md):
+#     pip install torch --index-url https://download.pytorch.org/whl/cpu --force-reinstall --no-deps
+#   Если torch уже установлен, transformers не будет тянуть его как зависимость.
+# torch  # (!) не раскомментировать — иначе pip скачает CUDA-версию (2GB)
+
+# Transformers (DistilBERT, Trainer API для fine-tuning)
+transformers>=4.30.0   # DistilBertTokenizer, DistilBertModel, DistilBertForSequenceClassification
+
+# accelerate — обязателен для Trainer API (fine-tuning BERT)
+accelerate>=1.1.0      # Оптимизация обучения на CPU (Trainer)
+
+# HuggingFace Datasets (загрузка VulDeePecker)
+datasets>=2.14.0       # load_dataset("claudios/VulDeePecker")
+
+# --- Визуализация ------------------------------------------------------------
+matplotlib>=3.7.0      # Графики и диаграммы
+seaborn>=0.12.0        # Статистические графики (тепловые карты, гистограммы)
+
+# --- REST API ----------------------------------------------------------------
+fastapi>=0.100.0       # Веб-фреймворк FastAPI
+uvicorn>=0.23.0        # ASGI-сервер для FastAPI
+pydantic>=2.0.0        # Валидация данных (Pydantic v2)
+
+# --- Сериализация моделей ----------------------------------------------------
+joblib>=1.3.0          # Сохранение/загрузка scikit-learn моделей (.pkl)
+
+# --- Утилиты -----------------------------------------------------------------
+tqdm>=4.65.0           # Прогресс-бары для длительных операций
+python-dotenv>=1.0.0   # Загрузка переменных окружения из .env файла
+pyyaml>=6.0            # Загрузка YAML-конфигурации
+
+# --- Градиентный бустинг -----------------------------------------------------
+
+# --- Трекинг экспериментов ---------------------------------------------------
+mlflow>=2.8.0            # Трекинг экспериментов (params, metrics, artifacts)
+
+# --- Мониторинг (Prometheus) --------------------------------------------------
+prometheus-client>=0.19.0  # Prometheus-метрики для наблюдаемости
+
+# --- Тестирование ------------------------------------------------------------
+pytest>=7.4.0          # Фреймворк для автоматических тестов
+httpx>=0.24.0          # HTTP-клиент для тестирования FastAPI (TestClient)
+aiofiles>=23.0         # Асинхронная работа с файлами (для тестов)

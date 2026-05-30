@@ -1,0 +1,97 @@
+# =============================================================================
+# Конфигурация проекта Vulnerability Scoring
+# =============================================================================
+# Все гиперпараметры моделей, настройки данных и сервиса вынесены в этот
+# YAML-файл для удобства экспериментов без изменения кода.
+#
+# Использование:
+#   python -m src.train --config configs/config.yaml
+# =============================================================================
+
+# --- Настройки данных --------------------------------------------------------
+data:
+  dataset_name: claudios/VulDeePecker  # Имя датасета на HuggingFace
+  sample_size: 5000   # Размер подвыборки (~38% от 13k; сервер 3.8GB RAM)
+  test_size: 500      # Размер тестовой выборки (остальное — train)
+  min_code_len: 20    # Минимальная длина кода в символах (короткие — неинформативны)
+  max_code_len: 2000  # Максимальная длина кода (длинные — шум/выбросы)
+  random_seed: 42     # Seed для воспроизводимости результатов
+
+# --- Настройки предобработки -------------------------------------------------
+preprocessing:
+  test_split: 0.15            # Доля тестовой выборки от всего датасета
+  val_split_from_train: 0.176 # Доля валидации от train (0.176 -> 15% от общего)
+  maxlen: 200                 # Максимальная длина последовательности для LSTM (символы)
+  tfidf_max_features: 10000   # Максимум признаков TF-IDF (словарь n-грамм)
+  tfidf_ngram_range: [3, 6]  # Диапазон n-грамм (char-level, от 3 до 6 символов)
+
+# --- Гиперпараметры моделей --------------------------------------------------
+models:
+  # Бидирекциональная LSTM (рекуррентная нейросеть)
+  lstm:
+    embedding_dim: 64   # Размерность эмбеддингов символов
+    lstm_units_1: 64    # Количество нейронов первого LSTM-слоя
+    lstm_units_2: 32    # Количество нейронов второго LSTM-слоя
+    dropout: 0.5        # Вероятность dropout (регуляризация)
+    dense_units: 32     # Количество нейронов полносвязного слоя
+    epochs: 20          # Число эпох обучения (ранняя остановка ~5-8 эпох)
+    batch_size: 32      # Размер мини-батча
+    learning_rate: 0.0005  # Learning rate для Adam
+    max_class_weight: 3.0   # Максимальный вес класса (cap для борьбы с расхождением)
+
+  # DistilBERT (трансформер, feature extraction)
+  bert:
+    model_name: distilbert-base-uncased  # Предобученная модель на HuggingFace
+    max_length: 128     # Максимальная длина токенов (обрезка/паддинг)
+    batch_size: 32      # Размер батча для инференса BERT
+
+  # LogisticRegression (для BERT-эмбеддингов и гибрида)
+  logistic_regression:
+    max_iter: 1000  # Максимум итераций для сходимости
+
+  # Ансамбль Stacking (сравнение архитектур мета-классификатора)
+  ensemble:
+    # Список вариантов для сравнения
+    candidates:
+      - meta_type: logistic_regression
+        scaler_type: standard
+        label: "Ensemble_LR+Std"
+        params:
+          class_weight: balanced
+      - meta_type: logistic_regression
+        scaler_type: minmax
+        label: "Ensemble_LR+MM"
+        params:
+          class_weight: balanced
+      - meta_type: gradient_boosting
+        scaler_type: none
+        label: "Ensemble_GB"
+        params:
+          n_estimators: 100
+          max_depth: 3
+          learning_rate: 0.05
+          min_samples_leaf: 10
+      - meta_type: sgd
+        scaler_type: standard
+        label: "Ensemble_SGD"
+        params:
+          sgd_loss: log_loss
+          sgd_epochs: 1000
+
+# --- Настройки сервиса -------------------------------------------------------
+service:
+  host: 0.0.0.0           # Хост для FastAPI (0.0.0.0 — все интерфейсы)
+  port: 8000              # Порт сервиса
+  model_path: artifacts/models  # Путь к директории с моделями
+  log_level: INFO         # Уровень логирования (DEBUG, INFO, WARNING, ERROR)
+
+# --- Настройки трекинга экспериментов (MLflow) --------------------------------
+tracking:
+  experiment_name: vulnerability-scoring  # Имя эксперимента в MLflow
+  tracking_uri: sqlite:///artifacts/mlruns/mlflow.db  # SQLite-бэкенд (FileStore устарел)
+
+# --- Настройки API (метаинформация) ------------------------------------------
+api:
+  title: Vulnerability Scoring API       # Название API (OpenAPI/Swagger)
+  version: 1.0.0                         # Версия API
+  description: API for C/C++ code vulnerability detection  # Описание
